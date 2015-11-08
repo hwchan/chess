@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class GameBoard extends JFrame implements ActionListener {
     
-    Tile[][] tiles = new Tile[8][8];
+    static Tile[][] tiles = new Tile[8][8];
     Tile selectedTile = null;
     
     public GameBoard() {
@@ -30,7 +30,7 @@ public class GameBoard extends JFrame implements ActionListener {
                     c = new Color(209, 139, 71);
                 // Create the tile
                 Tile tile = new Tile(c, j, i); 
-                tile.setPreferredSize(new Dimension(70,70));
+                tile.setPreferredSize(new Dimension(60,60));
                 tile.setBackground(tile.tileColor);
                 tile.addActionListener(this);
                 tiles[j][i] = tile;
