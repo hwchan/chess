@@ -11,11 +11,10 @@ public class Queen extends GamePiece {
         return "Queen";
     }
     
-    // checks if vertical movement is blocked
-    // @param dir -1 for NORTH, 1 for SOUTH
-    private boolean checkVBlock(int dir, int fromX, int fromY, int toY) {
-        while(toY != fromY + dir) {
-            fromY += dir;
+    private boolean checkBlock(int dirX, int dirY, int fromX, int fromY, int toX, int toY) {
+        while(toY != fromY+dirY || toX != fromX+dirX) {
+            fromY += dirY;
+            fromX += dirX;
             System.out.println(fromX + ":" + fromY);
             if(GameBoard.tiles[fromX][fromY].getPiece() != null) {
                 return false;
@@ -37,16 +36,16 @@ public class Queen extends GamePiece {
             // vertical movement
             if(fromX == toX) {
                 if(fromY > toY)
-                    return checkVBlock(-1,fromX,fromY,toY);
+                    return checkBlock(0,-1,fromX,fromY,toX,toY);
                 else
-                    return checkVBlock(1,fromX,fromY,toY);
+                    return checkBlock(0,1,fromX,fromY,toX,toY);
             }
             // horizontal movement
             if(fromY == toY) {
                 if(fromX > toX)
-                    return true;
+                    return checkBlock(-1,0,fromX,fromY,toX,toY);
                 else
-                    return true;
+                    return checkBlock(1,0,fromX,fromY,toX,toY);
             }
             // diagonal movement
             if(Math.abs(toX - fromX) == Math.abs(toY - fromY)) {
