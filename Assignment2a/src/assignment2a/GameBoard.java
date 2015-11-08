@@ -47,17 +47,20 @@ public class GameBoard extends JFrame implements ActionListener {
             // select a game piece
             if(selectedTile == null) {
                 if(tile.getPiece() != null) {
-                    selectedTile = tiles[tile.getXCoord()][tile.getYCoord()];
+                    selectedTile = tile;
+                    selectedTile.setBackground(Color.GRAY);
                 }
             } 
             // if placing in original lcoation
             else if(selectedTile == tile) {
+                selectedTile.setBackground(selectedTile.tileColor);
                 selectedTile = null;
             }
             // move/place the selected piece
-            else {
-                tiles[tile.getXCoord()][tile.getYCoord()].setPiece(selectedTile.getPiece());
+            else if(selectedTile.getPiece().isValidMove(selectedTile, tile)){
+                tile.setPiece(selectedTile.getPiece());
                 selectedTile.setPiece(null);
+                selectedTile.setBackground(selectedTile.tileColor);
                 selectedTile = null;
             }
             //System.out.println(tile.xCoord + ":" + tile.yCoord + "\t" + tile.getPiece().getType());

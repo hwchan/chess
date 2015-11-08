@@ -18,7 +18,11 @@ public abstract class GamePiece {
     }
     
     public boolean isValidMove(Tile from, Tile to) {
-        return false;
+        if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     
