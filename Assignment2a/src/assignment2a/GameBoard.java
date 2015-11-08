@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 public class GameBoard extends JFrame implements ActionListener {
     
+    //
     Tile[][] tiles = new Tile[8][8];
     Tile selectedTile = null;
     
