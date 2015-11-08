@@ -17,6 +17,18 @@ public abstract class GamePiece {
         }
     }
     
+    protected boolean checkBlock(int dirX, int dirY, int fromX, int fromY, int toX, int toY) {
+        while(toY != fromY+dirY || toX != fromX+dirX) {
+            fromY += dirY;
+            fromX += dirX;
+            //System.out.println(fromX + ":" + fromY);
+            if(GameBoard.tiles[fromX][fromY].getPiece() != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public boolean isValidMove(Tile from, Tile to) {
         if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
             return true;

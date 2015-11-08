@@ -11,18 +11,6 @@ public class Queen extends GamePiece {
         return "Queen";
     }
     
-    private boolean checkBlock(int dirX, int dirY, int fromX, int fromY, int toX, int toY) {
-        while(toY != fromY+dirY || toX != fromX+dirX) {
-            fromY += dirY;
-            fromX += dirX;
-            System.out.println(fromX + ":" + fromY);
-            if(GameBoard.tiles[fromX][fromY].getPiece() != null) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
     @Override
     public boolean isValidMove(Tile from, Tile to) {
         int fromX = from.getXCoord();
@@ -36,20 +24,24 @@ public class Queen extends GamePiece {
             // vertical movement
             if(fromX == toX) {
                 // N movement
-                if(fromY > toY)
+                if(fromY > toY) {
                     return checkBlock(0,-1,fromX,fromY,toX,toY);
+                }
                 // S movement
-                else
+                else {
                     return checkBlock(0,1,fromX,fromY,toX,toY);
+                }
             }
             // horizontal movement
             else if(fromY == toY) {
                 // W movement
-                if(fromX > toX)
+                if(fromX > toX) {
                     return checkBlock(-1,0,fromX,fromY,toX,toY);
+                }
                 // E movement
-                else
+                else {
                     return checkBlock(1,0,fromX,fromY,toX,toY);
+                }
             }
             // NW movement
             else if(fromX - toX == fromY - toY && fromX - toX > 0) {
