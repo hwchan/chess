@@ -5,14 +5,22 @@ import javax.swing.*;
 
 public class Tile extends JButton {
     public Color tileColor;
-    public int xCoord;
-    public int yCoord;
+    private int xCoord;
+    private int yCoord;
     private GamePiece piece;
     
     public Tile(Color c, int x, int y) {
         tileColor = c;
         xCoord = x;
         yCoord = y;
+    }
+    
+    public int getXCoord() {
+        return xCoord;
+    }
+    
+    public int getYCoord() {
+        return yCoord;
     }
     
     public void setPiece(GamePiece gp) {

@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 
 public class GameBoard extends JFrame implements ActionListener {
     
-    //
     Tile[][] tiles = new Tile[8][8];
     Tile selectedTile = null;
     
@@ -47,8 +46,9 @@ public class GameBoard extends JFrame implements ActionListener {
             Tile tile = (Tile) e.getSource();
             // select a game piece
             if(selectedTile == null) {
-                selectedTile = tiles[tile.xCoord][tile.yCoord];
-                //tiles[tile.xCoord][tile.yCoord].setPiece(null);
+                if(tile.getPiece() != null) {
+                    selectedTile = tiles[tile.getXCoord()][tile.getYCoord()];
+                }
             } 
             // if placing in original lcoation
             else if(selectedTile == tile) {
@@ -56,7 +56,7 @@ public class GameBoard extends JFrame implements ActionListener {
             }
             // move/place the selected piece
             else {
-                tiles[tile.xCoord][tile.yCoord].setPiece(selectedTile.getPiece());
+                tiles[tile.getXCoord()][tile.getYCoord()].setPiece(selectedTile.getPiece());
                 selectedTile.setPiece(null);
                 selectedTile = null;
             }
