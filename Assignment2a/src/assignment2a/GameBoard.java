@@ -10,10 +10,11 @@ import javax.swing.JFrame;
 public class GameBoard extends JFrame implements ActionListener {
     
     static Tile[][] tiles = new Tile[8][8];
-    Tile selectedTile = null;
+    private Tile selectedTile = null;
+    private boolean player1Turn = true;
     
     public GameBoard() {
-        this.setTitle("Chess");
+        this.setTitle("WHITE's move");
         this.setLayout(new GridLayout(8,8));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -46,7 +47,7 @@ public class GameBoard extends JFrame implements ActionListener {
             Tile tile = (Tile) e.getSource();
             // select a game piece
             if(selectedTile == null) {
-                if(tile.getPiece() != null) {
+                if(tile.getPiece() != null && tile.getPiece().isPlayer1() == player1Turn) {
                     selectedTile = tile;
                     selectedTile.setBackground(Color.GRAY);
                 }
@@ -62,8 +63,14 @@ public class GameBoard extends JFrame implements ActionListener {
                 selectedTile.setPiece(null);
                 selectedTile.setBackground(selectedTile.tileColor);
                 selectedTile = null;
+                player1Turn = !player1Turn;
             }
             //System.out.println(tile.xCoord + ":" + tile.yCoord + "\t" + tile.getPiece().getType());
+            if(player1Turn) {
+                this.setTitle("WHITE's move");
+            } else {
+                this.setTitle("BLACK's move");
+            }
         }
     }
     

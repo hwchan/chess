@@ -7,6 +7,15 @@ public class King extends GamePiece {
     }
     
     @Override
+    public void removeMe() {
+        if(isPlayer1()) {
+            System.out.println("BLACK WINS");
+        } else {
+            System.out.println("WHITE WINS");
+        }
+    }
+    
+    @Override
     public String getType(){
         return "King";
     }
