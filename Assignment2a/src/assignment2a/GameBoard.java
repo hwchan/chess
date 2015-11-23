@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class GameBoard extends JPanel implements ActionListener, Serializable {
     
-    static Tile[][] tiles = new Tile[8][8];
+    Tile[][] tiles = new Tile[8][8];
     private Tile selectedTile = null;
     private boolean player1Turn = true;
     
@@ -61,6 +61,7 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
                 if(tile.getPiece() != null && tile.getPiece().isPlayer1() == player1Turn) {
                     selectedTile = tile;
                     selectedTile.setBackground(Color.GRAY);
+                    System.out.println(tile.getPiece().getType());
                 }
             } 
             // if placing in original lcoation
@@ -69,7 +70,7 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
                 selectedTile = null;
             }
             // move/place the selected piece
-            else if(selectedTile.getPiece().isValidMove(selectedTile, tile)){
+            else if(selectedTile.getPiece().isValidMove(tiles, selectedTile, tile)){
                 tile.setPiece(selectedTile.getPiece());
                 selectedTile.setPiece(null);
                 selectedTile.setBackground(selectedTile.tileColor);

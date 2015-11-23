@@ -3,7 +3,7 @@ package assignment2a;
 import java.awt.*;
 import javax.swing.*;
 
-public class Tile extends JButton {
+public class Tile extends JButton implements java.io.Serializable {
     public Color tileColor;
     private final int xCoord;
     private final int yCoord;

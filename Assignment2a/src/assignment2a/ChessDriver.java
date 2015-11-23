@@ -1,11 +1,12 @@
 package assignment2a;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,36 +14,68 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class ChessDriver extends JFrame implements ActionListener {
-    
+
     JMenuBar menuBar;
     JMenu menu;
     JMenuItem saveMenuItem, loadMenuItem;
-    
+    static GameBoard game;
+    static ChessDriver cd;
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        // save/load
-        if(e.getSource() == saveMenuItem) {
-            System.out.println("S");
+        // save
+        if (e.getSource() == saveMenuItem) {
             try {
                 FileOutputStream fileOut = new FileOutputStream("save.gam");
                 ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(e);
+                out.writeObject(game);
                 out.close();
                 fileOut.close();
-            } catch(IOException i) {
+                System.out.println("Game saved");
+            } catch (IOException i) {
                 i.printStackTrace();
             }
-        } else if (e.getSource() == loadMenuItem) {
-            System.out.println("L");
+        } // load
+        else if (e.getSource() == loadMenuItem) {
+            try {
+                cd.remove(game);
+                FileInputStream fileIn = new FileInputStream("save.gam");
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                game = (GameBoard) in.readObject();
+                in.close();
+                fileIn.close();
+                
+                cd.add(game);
+                cd.pack();
+                cd.repaint();
+                System.out.println("Loaded game");
+                for(int i=0; i<8; i++) {
+                    for(int j=0; j<8; j++) {
+                        if(game.tiles[j][i].getPiece()==null) {
+                            System.out.printf("--\t");
+                        } else {
+                            System.out.printf("%s\t", game.tiles[j][i].getPiece().getType());
+                        }
+                    }
+                    System.out.println();
+                }
+            } catch (IOException i) {
+                i.printStackTrace();
+                return;
+            } catch (ClassNotFoundException c) {
+                System.out.println("Employee class not found");
+                c.printStackTrace();
+                return;
+            }
         }
     }
-    
+
     public static void main(String[] args) {
-        
-        ChessDriver cd = new ChessDriver();
-        
+
+        cd = new ChessDriver();
+
         cd.setTitle("WHITE's move");
-        cd.setPreferredSize(new Dimension(480,480));
+        cd.setPreferredSize(new Dimension(480, 480));
         cd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cd.setVisible(true);
         cd.menuBar = new JMenuBar();
@@ -55,13 +88,12 @@ public class ChessDriver extends JFrame implements ActionListener {
         cd.loadMenuItem.addActionListener(cd);
         cd.menu.add(cd.saveMenuItem);
         cd.menu.add(cd.loadMenuItem);
-        
-        
-        GameBoard game = new GameBoard();
+
+        game = new GameBoard();
         cd.add(game);
         cd.pack();
         game.initializeBoard();
-        
+
         Rook r1w = new Rook(false);
         Knight n1w = new Knight(false);
         Bishop b1w = new Bishop(false);
@@ -70,7 +102,7 @@ public class ChessDriver extends JFrame implements ActionListener {
         Rook r2w = new Rook(false);
         Knight n2w = new Knight(false);
         Bishop b2w = new Bishop(false);
-        
+
         game.addPiece(r1w, 0, 0);
         game.addPiece(n1w, 1, 0);
         game.addPiece(b1w, 2, 0);
@@ -79,10 +111,11 @@ public class ChessDriver extends JFrame implements ActionListener {
         game.addPiece(b2w, 5, 0);
         game.addPiece(n2w, 6, 0);
         game.addPiece(r2w, 7, 0);
-        
-        for(int i=0; i<8; i++)
+
+        for (int i = 0; i < 8; i++) {
             game.addPiece(new Pawn(false), i, 1);
-        
+        }
+
         game.addPiece(new Rook(true), 0, 7);
         game.addPiece(new Knight(true), 1, 7);
         game.addPiece(new Bishop(true), 2, 7);
@@ -91,9 +124,10 @@ public class ChessDriver extends JFrame implements ActionListener {
         game.addPiece(new Bishop(true), 5, 7);
         game.addPiece(new Knight(true), 6, 7);
         game.addPiece(new Rook(true), 7, 7);
-        
-        for(int i=0; i<8; i++)
+
+        for (int i = 0; i < 8; i++) {
             game.addPiece(new Pawn(true), i, 6);
+        }
     }
-    
+
 }

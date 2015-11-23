@@ -12,7 +12,7 @@ public class Bishop extends GamePiece {
     }
     
     @Override
-    public boolean isValidMove(Tile from, Tile to) {
+    public boolean isValidMove(Tile[][] tiles, Tile from, Tile to) {
         int fromX = from.getXCoord();
         int fromY = from.getYCoord();
         int toX = to.getXCoord();
@@ -21,19 +21,19 @@ public class Bishop extends GamePiece {
         if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
             // NW movement
             if(fromX - toX == fromY - toY && fromX - toX > 0) {
-                return checkBlock(-1,-1,fromX,fromY,toX,toY);
+                return checkBlock(tiles, -1,-1,fromX,fromY,toX,toY);
             }
             // SE movement
             else if(fromX - toX == fromY - toY && fromX - toX < 0) {
-                return checkBlock(1,1,fromX,fromY,toX,toY);
+                return checkBlock(tiles, 1,1,fromX,fromY,toX,toY);
             }
             // NE movement
             else if(fromX - toX == (fromY - toY) * -1 && fromX - toX < 0) {
-                return checkBlock(1,-1,fromX,fromY,toX,toY);
+                return checkBlock(tiles, 1,-1,fromX,fromY,toX,toY);
             }
             // SW movement
             else if(fromX - toX == (fromY - toY) * -1 && fromX - toX > 0) {
-                return checkBlock(-1,1,fromX,fromY,toX,toY);
+                return checkBlock(tiles, -1,1,fromX,fromY,toX,toY);
             }
         }
         

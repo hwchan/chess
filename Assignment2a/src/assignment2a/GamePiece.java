@@ -2,7 +2,7 @@ package assignment2a;
 
 import java.awt.*;
 
-public abstract class GamePiece {
+public abstract class GamePiece implements java.io.Serializable {
     public abstract String getType();
     public void removeMe(){}
     private final boolean player1;
@@ -17,19 +17,19 @@ public abstract class GamePiece {
         }
     }
     
-    protected boolean checkBlock(int dirX, int dirY, int fromX, int fromY, int toX, int toY) {
+    protected boolean checkBlock(Tile[][] tiles, int dirX, int dirY, int fromX, int fromY, int toX, int toY) {
         while(toY != fromY+dirY || toX != fromX+dirX) {
             fromY += dirY;
             fromX += dirX;
             //System.out.println(fromX + ":" + fromY);
-            if(GameBoard.tiles[fromX][fromY].getPiece() != null) {
+            if(tiles[fromX][fromY].getPiece() != null) {
                 return false;
             }
         }
         return true;
     }
     
-    public boolean isValidMove(Tile from, Tile to) {
+    public boolean isValidMove(Tile[][] tiles, Tile from, Tile to) {
         if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
             return true;
         } else {

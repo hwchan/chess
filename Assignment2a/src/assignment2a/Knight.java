@@ -12,7 +12,7 @@ public class Knight extends GamePiece {
     }
     
     @Override
-    public boolean isValidMove(Tile from, Tile to) {
+    public boolean isValidMove(Tile[][] tiles, Tile from, Tile to) {
         int fromX = from.getXCoord();
         int fromY = from.getYCoord();
         int toX = to.getXCoord();
