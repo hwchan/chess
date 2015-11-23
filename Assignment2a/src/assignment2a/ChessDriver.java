@@ -6,6 +6,7 @@ public class ChessDriver {
 
         GameBoard game = new GameBoard();
         game.initializeBoard();
+        game.initializeGUI();
         
         Rook r1w = new Rook(false);
         Knight n1w = new Knight(false);

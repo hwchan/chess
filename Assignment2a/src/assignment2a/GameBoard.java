@@ -5,19 +5,35 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class GameBoard extends JFrame implements ActionListener {
     
     static Tile[][] tiles = new Tile[8][8];
     private Tile selectedTile = null;
     private boolean player1Turn = true;
+    JMenuBar menuBar;
+    JMenu menu;
+    JMenuItem saveMenuItem, loadMenuItem;
     
     public GameBoard() {
         this.setTitle("WHITE's move");
         this.setLayout(new GridLayout(8,8));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+    
+    public void initializeGUI() {
+        menuBar = new JMenuBar();
+        menu = new JMenu("File");
+        menuBar.add(menu);
+        this.setJMenuBar(menuBar);
+        saveMenuItem = new JMenuItem("Save");
+        saveMenuItem.addActionListener(this);
+        loadMenuItem = new JMenuItem("Load");
+        loadMenuItem.addActionListener(this);
+        menu.add(saveMenuItem);
+        menu.add(loadMenuItem);
     }
     
     public void initializeBoard() {
@@ -43,9 +59,21 @@ public class GameBoard extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        // save/load
+        if(e.getSource() == saveMenuItem) {
+            System.out.println("S");
+        } else if (e.getSource() == loadMenuItem) {
+            System.out.println("L");
+        }
+        // move a piece
         if(e.getSource() instanceof Tile) {
             Tile tile = (Tile) e.getSource();
-            // select a game piece
+            movePiece(tile);
+        }
+    }
+    
+    private void movePiece(Tile tile) {
+        // select a game piece
             if(selectedTile == null) {
                 if(tile.getPiece() != null && tile.getPiece().isPlayer1() == player1Turn) {
                     selectedTile = tile;
@@ -71,7 +99,6 @@ public class GameBoard extends JFrame implements ActionListener {
             } else {
                 this.setTitle("BLACK's move");
             }
-        }
     }
     
     public void addPiece(GamePiece gp, int x, int y) {
