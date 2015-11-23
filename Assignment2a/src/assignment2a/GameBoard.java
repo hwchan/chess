@@ -5,9 +5,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import javax.swing.*;
 
-public class GameBoard extends JFrame implements ActionListener {
+public class GameBoard extends JFrame implements ActionListener, Serializable {
     
     static Tile[][] tiles = new Tile[8][8];
     private Tile selectedTile = null;
@@ -62,6 +63,15 @@ public class GameBoard extends JFrame implements ActionListener {
         // save/load
         if(e.getSource() == saveMenuItem) {
             System.out.println("S");
+            try {
+                FileOutputStream fileOut = new FileOutputStream("save.gam");
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(e);
+                out.close();
+                fileOut.close();
+            } catch(IOException i) {
+                i.printStackTrace();
+            }
         } else if (e.getSource() == loadMenuItem) {
             System.out.println("L");
         }
