@@ -8,33 +8,21 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import javax.swing.*;
 
-public class GameBoard extends JFrame implements ActionListener, Serializable {
+public class GameBoard extends JPanel implements ActionListener, Serializable {
     
     static Tile[][] tiles = new Tile[8][8];
     private Tile selectedTile = null;
     private boolean player1Turn = true;
-    JMenuBar menuBar;
-    JMenu menu;
-    JMenuItem saveMenuItem, loadMenuItem;
     
-    public GameBoard() {
+    /*public GameBoard() {
         this.setTitle("WHITE's move");
         this.setLayout(new GridLayout(8,8));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-    }
+    }*/
     
-    public void initializeGUI() {
-        menuBar = new JMenuBar();
-        menu = new JMenu("File");
-        menuBar.add(menu);
-        this.setJMenuBar(menuBar);
-        saveMenuItem = new JMenuItem("Save");
-        saveMenuItem.addActionListener(this);
-        loadMenuItem = new JMenuItem("Load");
-        loadMenuItem.addActionListener(this);
-        menu.add(saveMenuItem);
-        menu.add(loadMenuItem);
+    public GameBoard() {
+        setLayout(new GridLayout(8,8));
     }
     
     public void initializeBoard() {
@@ -55,26 +43,11 @@ public class GameBoard extends JFrame implements ActionListener, Serializable {
                 this.add(tile);
             }
         }
-        this.pack();
+        //this.pack();
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        // save/load
-        if(e.getSource() == saveMenuItem) {
-            System.out.println("S");
-            try {
-                FileOutputStream fileOut = new FileOutputStream("save.gam");
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(e);
-                out.close();
-                fileOut.close();
-            } catch(IOException i) {
-                i.printStackTrace();
-            }
-        } else if (e.getSource() == loadMenuItem) {
-            System.out.println("L");
-        }
         // move a piece
         if(e.getSource() instanceof Tile) {
             Tile tile = (Tile) e.getSource();
@@ -104,11 +77,11 @@ public class GameBoard extends JFrame implements ActionListener, Serializable {
                 player1Turn = !player1Turn;
             }
             //System.out.println(tile.xCoord + ":" + tile.yCoord + "\t" + tile.getPiece().getType());
-            if(player1Turn) {
+            /*if(player1Turn) {
                 this.setTitle("WHITE's move");
             } else {
                 this.setTitle("BLACK's move");
-            }
+            }*/
     }
     
     public void addPiece(GamePiece gp, int x, int y) {
