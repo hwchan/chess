@@ -41,13 +41,14 @@ public abstract class GamePiece implements java.io.Serializable {
         return true;
     }
     
-    public boolean isValidMove(Tile[][] tiles, Tile from, Tile to) {
-        if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    /**
+     * Check whether a gamepiece can move to a certain tile.
+     * @param tiles The array of tiles
+     * @param from The tile the piece is on
+     * @param to The tile to check whether it can move to
+     * @return True if it's a valid move
+     */
+    public abstract boolean isValidMove(Tile[][] tiles, Tile from, Tile to);
 
     
     public Color getColor() {

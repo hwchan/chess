@@ -14,12 +14,9 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
     private Tile selectedTile = null;
     private boolean player1Turn = true;
     
-    /*public GameBoard() {
-        this.setTitle("WHITE's move");
-        this.setLayout(new GridLayout(8,8));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
-    }*/
+    public boolean isPlayer1Turn() {
+        return player1Turn;
+    }
     
     public GameBoard() {
         setLayout(new GridLayout(8,8));
@@ -43,7 +40,6 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
                 this.add(tile);
             }
         }
-        //this.pack();
     }
     
     @Override
@@ -78,13 +74,10 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
                 player1Turn = !player1Turn;
                 if(player1Turn) {
                     System.out.println("WHITE's move");
-                    //this.setTitle("WHITE's move");
                 } else {
                     System.out.println("BLACK's move");
-                    //this.setTitle("BLACK's move");
                 }
             }
-            //System.out.println(tile.xCoord + ":" + tile.yCoord + "\t" + tile.getPiece().getType());
     }
     
     public void addPiece(GamePiece gp, int x, int y) {

@@ -28,10 +28,13 @@ public class King extends GamePiece {
         int toY = to.getYCoord();
         
         if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
-            if(Math.abs(fromX - toX) == 1 ||
-               Math.abs(fromY - toY) == 1 ||
-              (Math.abs(fromX - toX) == Math.abs(fromY - toY) &&
-               Math.abs(fromX - toX) == 1)) {
+            // NESW movement
+            if((Math.abs(fromX-toX) == 1 && Math.abs(fromY-toY) == 0) ||
+               (Math.abs(fromX-toX) == 0 && Math.abs(fromY-toY) == 1)) {
+                return true;
+            }
+            // diagonal movement
+            if((Math.abs(fromX-toX) == 1 && Math.abs(fromY-toY) == 1)) {
                 return true;
             }
         }

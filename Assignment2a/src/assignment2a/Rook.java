@@ -19,8 +19,6 @@ public class Rook extends GamePiece {
         int toX = to.getXCoord();
         int toY = to.getYCoord();
         
-        System.out.printf("%d,%d to %d,%d\n", fromX, fromY, toX, toY);
-        
         if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
             // vertical movement
             if(fromX == toX) {

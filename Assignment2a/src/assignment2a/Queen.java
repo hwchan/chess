@@ -18,8 +18,6 @@ public class Queen extends GamePiece {
         int toX = to.getXCoord();
         int toY = to.getYCoord();
         
-        //System.out.println(fromX + ":" + fromY + " to " + toX + ":" + toY);
-        
         if(to.getPiece() == null || to.getPiece().isPlayer1() != isPlayer1()) {
             // vertical movement
             if(fromX == toX) {
