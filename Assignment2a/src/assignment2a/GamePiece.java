@@ -17,7 +17,19 @@ public abstract class GamePiece implements java.io.Serializable {
         }
     }
     
+    /**
+     * Check whether the piece can reach the destination tile without getting blocked.
+     * @param tiles Array of current tiles
+     * @param dirX X direction
+     * @param dirY Y direction
+     * @param fromX X start coordinate
+     * @param fromY Y start coordinate
+     * @param toX X destination coordinate
+     * @param toY Y destination coordinate
+     * @return false if the piece is blocked, true if the piece can reach the destination
+     */
     protected boolean checkBlock(Tile[][] tiles, int dirX, int dirY, int fromX, int fromY, int toX, int toY) {
+        // start checking every tile that might be blocked
         while(toY != fromY+dirY || toX != fromX+dirX) {
             fromY += dirY;
             fromX += dirX;

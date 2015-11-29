@@ -3,15 +3,19 @@ package assignment2a;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ChessDriver extends JFrame implements ActionListener {
 
@@ -20,52 +24,56 @@ public class ChessDriver extends JFrame implements ActionListener {
     JMenuItem saveMenuItem, loadMenuItem;
     static GameBoard game;
     static ChessDriver cd;
+    final JFileChooser fc = new JFileChooser();
+    int returnVal;
+    String fileName;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // save
         if (e.getSource() == saveMenuItem) {
-            try {
-                FileOutputStream fileOut = new FileOutputStream("save.gam");
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(game);
-                out.close();
-                fileOut.close();
-                System.out.println("Game saved");
-            } catch (IOException i) {
-                i.printStackTrace();
+            returnVal = fc.showSaveDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                fileName = fc.getCurrentDirectory() + File.separator + fc.getSelectedFile().getName() + ".chess";
+                try {
+                    FileOutputStream fileOut = new FileOutputStream(fileName);
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    out.writeObject(game);
+                    out.close();
+                    fileOut.close();
+                    System.out.println("Game saved to " + fileName);
+                } catch (IOException i) {
+                    
+                }
             }
+            
         } // load
         else if (e.getSource() == loadMenuItem) {
-            try {
-                cd.remove(game);
-                FileInputStream fileIn = new FileInputStream("save.gam");
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                game = (GameBoard) in.readObject();
-                in.close();
-                fileIn.close();
-                
-                cd.add(game);
-                cd.pack();
-                cd.repaint();
-                System.out.println("Loaded game");
-                for(int i=0; i<8; i++) {
-                    for(int j=0; j<8; j++) {
-                        if(game.tiles[j][i].getPiece()==null) {
-                            System.out.printf("--\t");
-                        } else {
-                            System.out.printf("%s\t", game.tiles[j][i].getPiece().getType());
-                        }
-                    }
-                    System.out.println();
+            FileFilter filter = new FileNameExtensionFilter("Chess file", new String[] {"chess"});
+            fc.addChoosableFileFilter(filter);
+            fc.setAcceptAllFileFilterUsed(false);
+            returnVal = fc.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                fileName = fc.getCurrentDirectory() + File.separator + fc.getSelectedFile().getName();
+                try {
+                    FileInputStream fileIn = new FileInputStream(fileName);
+                    ObjectInputStream in = new ObjectInputStream(fileIn);
+                    cd.remove(game);
+                    game = (GameBoard) in.readObject();
+                    in.close();
+                    fileIn.close();
+
+                    cd.add(game);
+                    cd.pack();
+                    cd.repaint();
+                    System.out.println("Loading " + fileName);
+                } catch (IOException i) {
+                    System.out.println("Invalid save file");
+                    return;
+                } catch (ClassNotFoundException c) {
+                    System.out.println("Invalid save file");
+                    return;
                 }
-            } catch (IOException i) {
-                i.printStackTrace();
-                return;
-            } catch (ClassNotFoundException c) {
-                System.out.println("Employee class not found");
-                c.printStackTrace();
-                return;
             }
         }
     }
@@ -74,7 +82,7 @@ public class ChessDriver extends JFrame implements ActionListener {
 
         cd = new ChessDriver();
 
-        cd.setTitle("WHITE's move");
+        cd.setTitle("Chess");
         cd.setPreferredSize(new Dimension(480, 480));
         cd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cd.setVisible(true);

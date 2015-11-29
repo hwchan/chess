@@ -2,6 +2,8 @@ package assignment2a;
 
 public class Pawn extends GamePiece {
     
+    boolean isFirstMove = true;
+    
     public Pawn(boolean player1) {
         super(player1);
     }
@@ -22,14 +24,22 @@ public class Pawn extends GamePiece {
         if(to.getPiece() == null) {
             // white moves north
             if(isPlayer1()) {
-                if(fromX == toX && fromY - toY == 1) {
-                    return true;
+                if(fromX == toX) {
+                    // move 1 space or 2 if first move
+                    if(fromY - toY == 1 || (fromY - toY == 2 && isFirstMove)) {
+                        isFirstMove = false;
+                        return true;
+                    }   
                 }
             } 
-            // black mvoes south
+            // black moves south
             else {
-                if(fromX == toX && fromY - toY == -1) {
-                    return true;
+                if(fromX == toX) {
+                    // move 1 space or 2 if first move
+                    if(fromY - toY == -1 || (fromY - toY == -2 && isFirstMove)) {
+                        isFirstMove = false;
+                        return true;
+                    }   
                 }
             }
         }

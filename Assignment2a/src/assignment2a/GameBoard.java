@@ -61,7 +61,7 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
                 if(tile.getPiece() != null && tile.getPiece().isPlayer1() == player1Turn) {
                     selectedTile = tile;
                     selectedTile.setBackground(Color.GRAY);
-                    System.out.println(tile.getPiece().getType());
+                    //System.out.println(tile.getPiece().getType());
                 }
             } 
             // if placing in original lcoation
@@ -76,13 +76,15 @@ public class GameBoard extends JPanel implements ActionListener, Serializable {
                 selectedTile.setBackground(selectedTile.tileColor);
                 selectedTile = null;
                 player1Turn = !player1Turn;
+                if(player1Turn) {
+                    System.out.println("WHITE's move");
+                    //this.setTitle("WHITE's move");
+                } else {
+                    System.out.println("BLACK's move");
+                    //this.setTitle("BLACK's move");
+                }
             }
             //System.out.println(tile.xCoord + ":" + tile.yCoord + "\t" + tile.getPiece().getType());
-            /*if(player1Turn) {
-                this.setTitle("WHITE's move");
-            } else {
-                this.setTitle("BLACK's move");
-            }*/
     }
     
     public void addPiece(GamePiece gp, int x, int y) {
